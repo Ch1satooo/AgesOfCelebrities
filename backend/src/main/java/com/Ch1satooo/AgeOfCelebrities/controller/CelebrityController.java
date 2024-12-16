@@ -1,5 +1,6 @@
 package com.Ch1satooo.AgeOfCelebrities.controller;
 
+import com.Ch1satooo.AgeOfCelebrities.dto.CelebrityDTO;
 import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
 import com.Ch1satooo.AgeOfCelebrities.service.CelebrityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class CelebrityController {
 
     // @GetMapping ensures HTTP requests to '/...' are mapping to this method
     @GetMapping("/celebrity/{id}")
-    public Celebrity getCelebrityById(@PathVariable int id) {
+    public CelebrityDTO getCelebrityById(@PathVariable int id) {
         return celebrityService.getCelebrityById(id);
     }
 }

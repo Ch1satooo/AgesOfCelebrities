@@ -1,5 +1,7 @@
 package com.Ch1satooo.AgeOfCelebrities.service;
 
+import com.Ch1satooo.AgeOfCelebrities.converter.CelebrityConverter;
+import com.Ch1satooo.AgeOfCelebrities.dto.CelebrityDTO;
 import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
 import com.Ch1satooo.AgeOfCelebrities.repository.CelebrityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,9 @@ public class CelebrityServiceImpl implements CelebrityService {
     }
 
     @Override
-    public Celebrity getCelebrityById(int id) {
-        return celebrityRepository.findById(id).orElseThrow(RuntimeException::new);
+    public CelebrityDTO getCelebrityById(int id) {
+        Celebrity celebrity = celebrityRepository.findById(id).orElseThrow(RuntimeException::new);
+        return CelebrityConverter.convertCelebrity(celebrity);
     }
 
 }
