@@ -29,4 +29,11 @@ public class CelebrityServiceImpl implements CelebrityService {
         return CelebrityConverter.convertCelebrity(celebrity);
     }
 
+    public Celebrity addCelebrity(CelebrityDTO celebrityDTO){
+        Celebrity celebrity = new Celebrity();
+
+        celebrity = celebrityRepository.save(celebrity);
+        return celebrity;
+    }
+
 }

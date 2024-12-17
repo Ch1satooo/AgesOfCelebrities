@@ -1,12 +1,27 @@
 package com.Ch1satooo.AgeOfCelebrities;
 
-public class Response <T> {
+//Generic class
+public class Response<T> {
 
-    private T data;
+    private T data; // backend provided data: DTO class
     private boolean success;
     private String errorMsg;
 
+    // success response msg
+    public static <T> Response<T> newSuccess(T data){
+        Response<T> response = new Response<>();
+        response.setData(data);
+        response.setSuccess(true);
+        return response;
+    }
 
+    // failure response msg
+    public static Response<Void> newFailure(String errorMsg){
+        Response<Void> response = new Response<>();
+        response.setSuccess(false);
+        response.setErrorMsg(errorMsg);
+        return response;
+    }
 
     public T getData() {
         return data;
