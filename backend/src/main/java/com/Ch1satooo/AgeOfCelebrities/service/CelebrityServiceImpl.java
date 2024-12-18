@@ -6,6 +6,9 @@ import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
 import com.Ch1satooo.AgeOfCelebrities.repository.CelebrityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 @Service
 public class CelebrityServiceImpl implements CelebrityService {
@@ -25,15 +28,17 @@ public class CelebrityServiceImpl implements CelebrityService {
 
     @Override
     public CelebrityDTO getCelebrityById(int id) {
-        Celebrity celebrity = celebrityRepository.findById(id).orElseThrow(RuntimeException::new);
+        Celebrity celebrity = celebrityRepository.findById(id).orElseThrow(() -> new RuntimeException("Celebrity noe found."));
         return CelebrityConverter.convertCelebrity(celebrity);
     }
 
-    public Celebrity addCelebrity(CelebrityDTO celebrityDTO){
-        Celebrity celebrity = new Celebrity();
-
-        celebrity = celebrityRepository.save(celebrity);
-        return celebrity;
+    public Integer addCelebrity(CelebrityDTO celebrityDTO) {
+        List<Celebrity> celebrityList = celebrityRepository.findByName(celebrityDTO.getName());
+        if (!CollectionUtils.isEmpty(celebrityList)) {
+            throw new IllegalStateException(celebrityDTO.getName() + " already exists in the database.");
+        }
+        Celebrity celebrity = celebrityRepository.save(CelebrityConverter.convertCelebrityDTO(celebrityDTO));
+        return celebrity.getId();
     }
 
 }

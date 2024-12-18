@@ -7,6 +7,8 @@ import com.Ch1satooo.AgeOfCelebrities.service.CelebrityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 // @RestController is an 'identifier', for handling HTTP requests
 // marks the class as a controller where every method returns a domain object instead of a view.
 // Instead of rendering a visual page (a "view"), methods in this class directly return data (e.g. JSON).
@@ -31,8 +33,8 @@ public class CelebrityController {
     // Spring Boot automatically converts the JSON payload to the corresponding object(DTO here).
     // Add validation here later!!!
     @PostMapping("/celebrity")
-    public Response<Integer> addCelebrity(@RequestBody CelebrityDTO celebrityDTO){
-        return Response.newSuccess(celebrityService.);
+    public Response<Integer> addCelebrity(@RequestBody CelebrityDTO celebrityDTO) {
+        return Response.newSuccess(celebrityService.addCelebrity(celebrityDTO));
     }
 
 }

@@ -8,6 +8,6 @@ public interface CelebrityService {
     // All methods in an interface are implicitly public and abstract by default.
     CelebrityDTO getCelebrityById(int id);
 
-    Celebrity addCelebrity(CelebrityDTO celebrityDTO);
+    Integer addCelebrity(CelebrityDTO celebrityDTO);
 
 }

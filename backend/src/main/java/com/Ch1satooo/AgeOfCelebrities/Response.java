@@ -8,7 +8,7 @@ public class Response<T> {
     private String errorMsg;
 
     // success response msg
-    public static <T> Response<T> newSuccess(T data){
+    public static <T> Response<T> newSuccess(T data) {
         Response<T> response = new Response<>();
         response.setData(data);
         response.setSuccess(true);
@@ -16,7 +16,7 @@ public class Response<T> {
     }
 
     // failure response msg
-    public static Response<Void> newFailure(String errorMsg){
+    public static Response<Void> newFailure(String errorMsg) {
         Response<Void> response = new Response<>();
         response.setSuccess(false);
         response.setErrorMsg(errorMsg);

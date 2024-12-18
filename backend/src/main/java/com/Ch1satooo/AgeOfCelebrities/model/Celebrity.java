@@ -2,7 +2,10 @@ package com.Ch1satooo.AgeOfCelebrities.model;
 
 
 import jakarta.persistence.*;
+import jdk.jfr.Timestamp;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
@@ -31,9 +34,12 @@ public class Celebrity {
     @Column(name = "nationality")
     private String nationality;
 
+    // JPA config will overwrite database config
+    @CreationTimestamp
     @Column(name = "created_at")
     private Date createdTime;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedTime;
 
