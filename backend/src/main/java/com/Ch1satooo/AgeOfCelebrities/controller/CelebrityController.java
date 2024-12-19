@@ -37,4 +37,14 @@ public class CelebrityController {
         return Response.newSuccess(celebrityService.addCelebrity(celebrityDTO));
     }
 
+    @DeleteMapping("/celebrity/{id}")
+    public void deleteCelebrity(@PathVariable int id) {
+        celebrityService.deleteCelebrityById(id);
+    }
+
+    @PutMapping("/celebrity/{name}")
+    public Response<CelebrityDTO> updateCelebrityByName(@PathVariable String name, @RequestBody CelebrityDTO celebrityDTO) {
+        return Response.newSuccess(celebrityService.updateCelebrityByName(name, celebrityDTO));
+    }
+
 }

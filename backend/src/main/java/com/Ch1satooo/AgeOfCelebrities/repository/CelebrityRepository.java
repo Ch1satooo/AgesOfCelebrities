@@ -13,6 +13,6 @@ public interface CelebrityRepository extends JpaRepository<Celebrity, Integer> {
 
     // findById() method returns an Optional<Celebrity> value
     // But other derived query methods return List<Celebrity> or Celebrity type
-    List<Celebrity> findByName(String name);
+    Celebrity findByName(String name);
 
 }

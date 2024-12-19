@@ -1,15 +1,20 @@
 // DTO (Data Transfer Object), these protected data will be pushed to frontend
 package com.Ch1satooo.AgeOfCelebrities.dto;
 
+import com.Ch1satooo.AgeOfCelebrities.utils.formatter.DataFormatter;
+
 import java.util.Date;
 
 public class CelebrityDTO {
 
+    // When update date, 'id' field isn't be needed
+    // But it is nullable and no error will be triggered.
     private int id;
 
     private String name;
 
-    private Date birthDate;
+    // Date data from frontend is String type
+    private String birthDate;
 
     private String gender;
 
@@ -33,11 +38,11 @@ public class CelebrityDTO {
         this.name = name;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

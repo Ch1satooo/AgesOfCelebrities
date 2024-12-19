@@ -10,4 +10,8 @@ public interface CelebrityService {
 
     Integer addCelebrity(CelebrityDTO celebrityDTO);
 
+    void deleteCelebrityById(int id);
+
+    CelebrityDTO updateCelebrityByName(String name, CelebrityDTO celebrityDTO);
+
 }
