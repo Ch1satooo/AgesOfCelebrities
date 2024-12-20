@@ -64,15 +64,22 @@ public class CelebrityServiceImpl implements CelebrityService {
         // Find existing celebrity by name
         Celebrity celebrityInDB= celebrityRepository.findByName(name);
         if (celebrityInDB == null) {
-            throw new IllegalArgumentException("Celebrity name: " + name + " doesn't exist.");
+            throw new IllegalArgumentException("Celebrity name: " + name + " doesn't exist in the database.");
         }
 
         Celebrity celebrity = CelebrityConverter.convertCelebrityDTO(celebrityDTO);
+        String requestName = celebrityDTO.getName();
 
-        // Compare with the existing database entry
+        // Compare with the existing database entity
         // This equals() method must be override to make logical equality.
         if (celebrityInDB.equals(celebrity)) {
-            throw new IllegalArgumentException("Same as the data in the database.");
+            throw new IllegalArgumentException("Exactly the same data as stored in the database.");
+        }
+        // Cannot change to existing name
+        // Check if the requested name exists in another record
+        Celebrity existingCelebrityWithRequestName = celebrityRepository.findByName(requestName);
+        if (existingCelebrityWithRequestName != null && !existingCelebrityWithRequestName.getName().equals(celebrityInDB.getName())) {
+            throw new IllegalArgumentException("The name requested to be changed already exists in the database.");
         }
 
         // Ensure the ID matches the existing entry to perform an update
