@@ -25,9 +25,12 @@ public class CelebrityServiceImpl implements CelebrityService {
     }
 
     @Override
-    public CelebrityDTO getCelebrityById(int id) {
-        Celebrity celebrity = celebrityRepository.findById(id).orElseThrow(() -> new IllegalStateException("Celebrity Id: " + id + " doesn't exist."));
-        return CelebrityConverter.convertCelebrity(celebrity);
+    public CelebrityDTO getCelebrityByName(String name) {
+        Celebrity celebrityInDB = celebrityRepository.findByName(name);
+        if (celebrityInDB == null) {
+            throw new IllegalStateException("Celebrity name: " + name + " doesn't exists in the database.");
+        }
+        return CelebrityConverter.convertCelebrity(celebrityInDB);
     }
 
     @Override
@@ -43,10 +46,10 @@ public class CelebrityServiceImpl implements CelebrityService {
 
     @Override
     @Transactional
-    public void deleteCelebrityById(String name) {
+    public void deleteCelebrityByName(String name) {
         Celebrity celebrityInDB = celebrityRepository.findByName(name);
         if (celebrityInDB == null) {
-            throw new IllegalStateException("Celebrity name: " + name + " doesn't exist.");
+            throw new IllegalStateException("Celebrity name: " + name + " doesn't exist in the database.");
         }
         celebrityRepository.deleteByName(name);
     }

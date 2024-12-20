@@ -23,9 +23,9 @@ public class CelebrityController {
 
     // @GetMapping ensures HTTP requests to '/...' are mapping to this method in REST controller.
     // @PathVariable corresponds {id}
-    @GetMapping("/celebrity/{id}")
-    public Response<CelebrityDTO> getCelebrityById(@PathVariable int id) {
-        return Response.newSuccess(celebrityService.getCelebrityById(id));
+    @GetMapping("/celebrity/{name}")
+    public Response<CelebrityDTO> getCelebrityById(@PathVariable String name) {
+        return Response.newSuccess(celebrityService.getCelebrityByName(name));
     }
 
     // @PostMapping is a Spring annotation used to handle HTTP POST requests
@@ -39,7 +39,7 @@ public class CelebrityController {
 
     @DeleteMapping("/celebrity/{name}")
     public void deleteCelebrityByName(@PathVariable String name) {
-        celebrityService.deleteCelebrityById(name);
+        celebrityService.deleteCelebrityByName(name);
     }
 
     @PutMapping("/celebrity/{name}")
