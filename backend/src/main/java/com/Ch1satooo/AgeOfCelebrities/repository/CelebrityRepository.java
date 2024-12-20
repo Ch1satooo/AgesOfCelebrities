@@ -15,4 +15,6 @@ public interface CelebrityRepository extends JpaRepository<Celebrity, Integer> {
     // But other derived query methods return List<Celebrity> or Celebrity type
     Celebrity findByName(String name);
 
+    void deleteByName(String name);
+
 }

@@ -6,6 +6,7 @@ import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
 import com.Ch1satooo.AgeOfCelebrities.repository.CelebrityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CelebrityServiceImpl implements CelebrityService {
@@ -30,6 +31,7 @@ public class CelebrityServiceImpl implements CelebrityService {
     }
 
     @Override
+    @Transactional
     public Integer addCelebrity(CelebrityDTO celebrityDTO) {
         Celebrity celebrityInDB = celebrityRepository.findByName(celebrityDTO.getName());
         if (!(celebrityInDB == null)) {
@@ -40,12 +42,18 @@ public class CelebrityServiceImpl implements CelebrityService {
     }
 
     @Override
-    public void deleteCelebrityById(int id) {
-        celebrityRepository.findById(id).orElseThrow(() -> new IllegalStateException("Celebrity Id: " + id + " doesn't exist."));
-        celebrityRepository.deleteById(id);
+    @Transactional
+    public void deleteCelebrityById(String name) {
+        Celebrity celebrityInDB = celebrityRepository.findByName(name);
+        if (celebrityInDB == null) {
+            throw new IllegalStateException("Celebrity name: " + name + " doesn't exist.");
+        }
+        celebrityRepository.deleteByName(name);
     }
 
+    // @Transactional is used for multiple operations. If one fails, others roll back.
     @Override
+    @Transactional
     public CelebrityDTO updateCelebrityByName(String name, CelebrityDTO celebrityDTO) {
         // Find existing celebrity by name
         Celebrity celebrityInDB= celebrityRepository.findByName(name);
