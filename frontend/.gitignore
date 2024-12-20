@@ -8,6 +8,12 @@
 # testing
 /coverage
 
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
 # production
 /build
 
