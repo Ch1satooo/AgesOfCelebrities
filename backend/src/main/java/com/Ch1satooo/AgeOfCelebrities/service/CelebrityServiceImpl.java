@@ -27,9 +27,12 @@ public class CelebrityServiceImpl implements CelebrityService {
     @Override
     public CelebrityDTO getCelebrityByName(String name) {
         Celebrity celebrityInDB = celebrityRepository.findByName(name);
+
+        // This thrown exception will be propagated to controller layer until it be caught.
         if (celebrityInDB == null) {
-            throw new IllegalStateException("Celebrity name: " + name + " doesn't exists in the database.");
+            throw new IllegalArgumentException("Celebrity name: " + name + " doesn't exists in the database.");
         }
+
         return CelebrityConverter.convertCelebrity(celebrityInDB);
     }
 
@@ -38,7 +41,7 @@ public class CelebrityServiceImpl implements CelebrityService {
     public Integer addCelebrity(CelebrityDTO celebrityDTO) {
         Celebrity celebrityInDB = celebrityRepository.findByName(celebrityDTO.getName());
         if (!(celebrityInDB == null)) {
-            throw new IllegalStateException(celebrityDTO.getName() + " already exists in the database.");
+            throw new IllegalArgumentException("Celebrity name: " + celebrityDTO.getName() + " already exists in the database.");
         }
         Celebrity celebrity = celebrityRepository.save(CelebrityConverter.convertCelebrityDTO(celebrityDTO));
         return celebrity.getId();
@@ -49,7 +52,7 @@ public class CelebrityServiceImpl implements CelebrityService {
     public void deleteCelebrityByName(String name) {
         Celebrity celebrityInDB = celebrityRepository.findByName(name);
         if (celebrityInDB == null) {
-            throw new IllegalStateException("Celebrity name: " + name + " doesn't exist in the database.");
+            throw new IllegalArgumentException("Celebrity name: " + name + " doesn't exist in the database.");
         }
         celebrityRepository.deleteByName(name);
     }
@@ -61,7 +64,7 @@ public class CelebrityServiceImpl implements CelebrityService {
         // Find existing celebrity by name
         Celebrity celebrityInDB= celebrityRepository.findByName(name);
         if (celebrityInDB == null) {
-            throw new IllegalStateException("Celebrity name: " + name + " doesn't exist.");
+            throw new IllegalArgumentException("Celebrity name: " + name + " doesn't exist.");
         }
 
         Celebrity celebrity = CelebrityConverter.convertCelebrityDTO(celebrityDTO);
@@ -69,7 +72,7 @@ public class CelebrityServiceImpl implements CelebrityService {
         // Compare with the existing database entry
         // This equals() method must be override to make logical equality.
         if (celebrityInDB.equals(celebrity)) {
-            throw new IllegalStateException("Same as the data in the database.");
+            throw new IllegalArgumentException("Same as the data in the database.");
         }
 
         // Ensure the ID matches the existing entry to perform an update

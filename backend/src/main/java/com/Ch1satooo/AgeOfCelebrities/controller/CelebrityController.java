@@ -5,6 +5,7 @@ import com.Ch1satooo.AgeOfCelebrities.dto.CelebrityDTO;
 import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
 import com.Ch1satooo.AgeOfCelebrities.service.CelebrityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -24,8 +25,8 @@ public class CelebrityController {
     // @GetMapping ensures HTTP requests to '/...' are mapping to this method in REST controller.
     // @PathVariable corresponds {id}
     @GetMapping("/celebrity/{name}")
-    public Response<CelebrityDTO> getCelebrityById(@PathVariable String name) {
-        return Response.newSuccess(celebrityService.getCelebrityByName(name));
+    public ResponseEntity<Response<CelebrityDTO>> getCelebrityById(@PathVariable String name) {
+        return ResponseEntity.ok(Response.newSuccess(celebrityService.getCelebrityByName(name)));
     }
 
     // @PostMapping is a Spring annotation used to handle HTTP POST requests
@@ -33,18 +34,20 @@ public class CelebrityController {
     // Spring Boot automatically converts the JSON payload to the corresponding object(DTO here).
     // Add validation here later!!!
     @PostMapping("/celebrity")
-    public Response<Integer> addCelebrity(@RequestBody CelebrityDTO celebrityDTO) {
-        return Response.newSuccess(celebrityService.addCelebrity(celebrityDTO));
+    public ResponseEntity<Response<Integer>> addCelebrity(@RequestBody CelebrityDTO celebrityDTO) {
+        return ResponseEntity.ok(Response.newSuccess(celebrityService.addCelebrity(celebrityDTO)));
     }
 
     @DeleteMapping("/celebrity/{name}")
-    public void deleteCelebrityByName(@PathVariable String name) {
+    public ResponseEntity<Response<Void>> deleteCelebrityByName(@PathVariable String name) {
         celebrityService.deleteCelebrityByName(name);
+        return ResponseEntity.ok(Response.newSuccess(null));
     }
 
+    // Update info by current name
     @PutMapping("/celebrity/{name}")
-    public Response<CelebrityDTO> updateCelebrityByName(@PathVariable String name, @RequestBody CelebrityDTO celebrityDTO) {
-        return Response.newSuccess(celebrityService.updateCelebrityByName(name, celebrityDTO));
+    public ResponseEntity<Response<CelebrityDTO>> updateCelebrityByName(@PathVariable String name, @RequestBody CelebrityDTO celebrityDTO) {
+        return ResponseEntity.ok(Response.newSuccess(celebrityService.updateCelebrityByName(name, celebrityDTO)));
     }
 
 }
