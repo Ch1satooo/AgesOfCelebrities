@@ -75,7 +75,7 @@ public class CelebrityServiceImpl implements CelebrityService {
         if (celebrityInDB.equals(celebrity)) {
             throw new IllegalArgumentException("Exactly the same data as stored in the database.");
         }
-        // Cannot change to exis
+        // Cannot change to exist
         // Check if the requested name exists in another record
         Celebrity existingCelebrityWithRequestName = celebrityRepository.findByName(requestName);
         if (existingCelebrityWithRequestName != null && !existingCelebrityWithRequestName.getName().equals(celebrityInDB.getName())) {
