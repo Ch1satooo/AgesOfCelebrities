@@ -1,10 +1,6 @@
 // DTO (Data Transfer Object), these protected data will be pushed to frontend
 package com.Ch1satooo.AgeOfCelebrities.dto;
 
-import com.Ch1satooo.AgeOfCelebrities.utils.formatter.DataFormatter;
-
-import java.util.Date;
-
 public class CelebrityDTO {
 
     // When update date, 'id' field isn't be needed

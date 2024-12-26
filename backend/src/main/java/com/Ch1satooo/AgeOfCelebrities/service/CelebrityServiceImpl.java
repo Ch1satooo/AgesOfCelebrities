@@ -1,12 +1,19 @@
 package com.Ch1satooo.AgeOfCelebrities.service;
 
+import com.Ch1satooo.AgeOfCelebrities.dto.EventDTO;
+import com.Ch1satooo.AgeOfCelebrities.dto.TimelineDTO;
+import com.Ch1satooo.AgeOfCelebrities.model.Event;
+import com.Ch1satooo.AgeOfCelebrities.repository.EventRepository;
 import com.Ch1satooo.AgeOfCelebrities.utils.converter.CelebrityConverter;
 import com.Ch1satooo.AgeOfCelebrities.dto.CelebrityDTO;
 import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
 import com.Ch1satooo.AgeOfCelebrities.repository.CelebrityRepository;
+import com.Ch1satooo.AgeOfCelebrities.utils.converter.EventConvert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class CelebrityServiceImpl implements CelebrityService {
@@ -19,10 +26,35 @@ public class CelebrityServiceImpl implements CelebrityService {
 
     //Constructor injection:
     private final CelebrityRepository celebrityRepository;  // Declaration just tells that the class will use this dependency.
+    private final EventRepository eventRepository;
     @Autowired
-    public CelebrityServiceImpl(CelebrityRepository celebrityRepository) {
+    public CelebrityServiceImpl(CelebrityRepository celebrityRepository, EventRepository eventRepository) {
         this.celebrityRepository = celebrityRepository; // Dependency injected here
+        this.eventRepository = eventRepository;
     }
+
+
+    @Override
+    @Transactional
+    public TimelineDTO getTimeline(String name, Integer age) {
+        CelebrityDTO celebrityDTO = getCelebrityByName(name);
+
+        TimelineDTO timelineDTO = new TimelineDTO();
+        timelineDTO.setCelebrity(celebrityDTO);
+        Celebrity celebrityInDB = celebrityRepository.findByName(name);
+        List<Event> eventList = eventRepository.findByCelebrity(celebrityInDB);
+        if (eventList.isEmpty()) {
+            throw new IllegalStateException("Celebrity name: " + name + " doesn't have any events now.");
+        }
+        // Convert Sequentially
+        List<EventDTO> eventDTOList = eventList.stream().map(EventConvert::convertEvent).toList();
+
+        // (Add identifier here later)
+
+        timelineDTO.setEvents(eventDTOList);
+        return timelineDTO;
+    }
+
 
     @Override
     public CelebrityDTO getCelebrityByName(String name) {
@@ -75,7 +107,7 @@ public class CelebrityServiceImpl implements CelebrityService {
         if (celebrityInDB.equals(celebrity)) {
             throw new IllegalArgumentException("Exactly the same data as stored in the database.");
         }
-        // Cannot change to exist
+        // Cannot change name to existing celebrity
         // Check if the requested name exists in another record
         Celebrity existingCelebrityWithRequestName = celebrityRepository.findByName(requestName);
         if (existingCelebrityWithRequestName != null && !existingCelebrityWithRequestName.getName().equals(celebrityInDB.getName())) {

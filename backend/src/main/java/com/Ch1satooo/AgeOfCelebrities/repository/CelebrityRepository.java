@@ -1,11 +1,13 @@
 package com.Ch1satooo.AgeOfCelebrities.repository;
 
 import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
+import com.Ch1satooo.AgeOfCelebrities.model.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+// This repository is only used for Table 'Celebrity' query
 @Repository
 public interface CelebrityRepository extends JpaRepository<Celebrity, Integer> {
 

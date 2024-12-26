@@ -1,6 +1,7 @@
 package com.Ch1satooo.AgeOfCelebrities.service;
 
 import com.Ch1satooo.AgeOfCelebrities.dto.CelebrityDTO;
+import com.Ch1satooo.AgeOfCelebrities.dto.TimelineDTO;
 import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
 
 public interface CelebrityService {
@@ -14,4 +15,5 @@ public interface CelebrityService {
 
     CelebrityDTO updateCelebrityByName(String name, CelebrityDTO celebrityDTO);
 
+    TimelineDTO getTimeline(String name, Integer age);
 }

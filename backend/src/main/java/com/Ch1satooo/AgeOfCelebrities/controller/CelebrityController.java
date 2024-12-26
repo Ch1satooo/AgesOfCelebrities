@@ -2,6 +2,7 @@ package com.Ch1satooo.AgeOfCelebrities.controller;
 
 import com.Ch1satooo.AgeOfCelebrities.Response;
 import com.Ch1satooo.AgeOfCelebrities.dto.CelebrityDTO;
+import com.Ch1satooo.AgeOfCelebrities.dto.TimelineDTO;
 import com.Ch1satooo.AgeOfCelebrities.model.Celebrity;
 import com.Ch1satooo.AgeOfCelebrities.service.CelebrityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,13 @@ public class CelebrityController {
     @Autowired
     public CelebrityController(CelebrityService celebrityService) {
         this.celebrityService = celebrityService;
+    }
+
+    // core function
+    // format: GET /timeline/TaylorSwift?age=25
+    @GetMapping("timeline/{name}")
+    public ResponseEntity<Response<TimelineDTO>> getTimeline(@PathVariable String name, @RequestParam Integer age){
+        return ResponseEntity.ok(Response.newSuccess(celebrityService.getTimeline(name, age)));
     }
 
     // @GetMapping ensures HTTP requests to '/...' are mapping to this method in REST controller.
