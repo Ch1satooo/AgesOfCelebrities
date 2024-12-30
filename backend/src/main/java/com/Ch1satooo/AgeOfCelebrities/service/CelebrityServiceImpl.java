@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -47,9 +48,29 @@ public class CelebrityServiceImpl implements CelebrityService {
             throw new IllegalStateException("Celebrity name: " + name + " doesn't have any events now.");
         }
         // Convert Sequentially
-        List<EventDTO> eventDTOList = eventList.stream().map(EventConvert::convertEvent).toList();
+        List<EventDTO> eventDTOList = new java.util.ArrayList<>(eventList.stream()
+                .map(EventConvert::convertEvent)
+                .toList());
 
-        // (Add identifier here later)
+        // Sort events by age
+        eventDTOList.sort(Comparator.comparingInt(EventDTO::getAge));
+
+        // Add the closest age event identifier
+        int minGap = Integer.MAX_VALUE;
+        EventDTO closestEventDTO = null;
+
+        for (EventDTO eventDTO : eventDTOList) {
+            int currentGap = Math.abs(eventDTO.getAge() - age);
+            if (currentGap < minGap) {
+                // If found a closer event, set the previous closest to non-central (if necessary)
+                if (closestEventDTO != null) {
+                    closestEventDTO.setCentral(false);
+                }
+                eventDTO.setCentral(true);
+                closestEventDTO = eventDTO;  // Update closest event
+                minGap = currentGap;
+            }
+        }
 
         timelineDTO.setEvents(eventDTOList);
         return timelineDTO;
